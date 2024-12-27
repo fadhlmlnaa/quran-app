@@ -27,7 +27,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_SURAH,
-      page: () => const DetailSurahView(),
+      page: () => DetailSurahView(),
       binding: DetailSurahBinding(),
     ),
   ];

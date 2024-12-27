@@ -106,6 +106,16 @@ flutter:
         - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
         - asset: assets/fonts/Poppins-Thin.ttf
         - asset: assets/fonts/Poppins-ThinItalic.ttf
+        
+    - family: Lateef
+      fonts:
+        - asset: assets/fonts/Lateef-Bold.ttf
+        - asset: assets/fonts/Lateef-Regular.ttf
+        - asset: assets/fonts/Lateef-ExtraBold.ttf
+        - asset: assets/fonts/Lateef-ExtraLight.ttf
+        - asset: assets/fonts/Lateef-Light.ttf
+        - asset: assets/fonts/Lateef-Medium.ttf
+        - asset: assets/fonts/Lateef-SemiBold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

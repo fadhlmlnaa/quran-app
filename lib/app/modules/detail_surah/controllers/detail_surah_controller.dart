@@ -11,7 +11,9 @@ class DetailSurahController extends GetxController {
     Map<String, dynamic> data =
         (json.decode(res.body) as Map<String, dynamic>)['data'];
 
-  print(data);
+    const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+    print(encoder.convert(data));
+    
     return DetailSurah.fromJson(data);
   }
 }

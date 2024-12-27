@@ -10,6 +10,9 @@ class HomeController extends GetxController {
     var res = await http.get(url);
     List data = (json.decode(res.body) as Map<String, dynamic>)['data'];
 
+    const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+    print(encoder.convert(data));
+    
     if (data.isEmpty) {
       return [];
     } else {
