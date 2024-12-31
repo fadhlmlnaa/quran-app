@@ -5,6 +5,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:quranku/models/detail_surah.dart';
 import 'package:quranku/models/surah.dart';
 import 'package:quranku/utils/utils.dart';
+import 'package:quranku/utils/widget/hexa_widget.dart';
 
 import '../controllers/detail_surah_controller.dart';
 
@@ -14,72 +15,18 @@ class DetailSurahView extends GetView<DetailSurahController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: TextWidget(
           text: 'Surah ${surah.namaLatin}',
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
         ),
         centerTitle: true,
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: ListView(
           children: [
-            Card(
-              color: const Color(0xFFEF6C35),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                          text: surah.namaLatin,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                        TextWidget(
-                          text: ' - (${surah.nama}) ',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextWidget(
-                          text: surah.arti,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                        TextWidget(
-                          text: ' | ${surah.jumlahAyat} Ayat',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    TextWidget(
-                      text: surah.tempatTurun,
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 18,
-            ),
             Expanded(
               child: FutureBuilder<DetailSurah>(
                 future: controller.getDetailSurah(surah.nomor.toString()),
@@ -95,108 +42,255 @@ class DetailSurahView extends GetView<DetailSurahController> {
                       child: Text('Data Kosong'),
                     );
                   }
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: surahDetail!.jumlahAyat,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final Ayat ayatSurah = surahDetail.ayat[index];
-                      return Column(
-                        children: [
-                          Card(
-                            color: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 16,
-                                        backgroundColor:
-                                            const Color(0xFFEF6C35),
-                                        child: TextWidget(
-                                          text: '${index + 1}',
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                        ),
+                  return Column(
+                    children: [
+                      Card(
+                        borderOnForeground: true,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? primaryColor
+                            : secondaryColor,
+                        child: Column(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(
+                                  height: 18,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextWidget(
+                                      text: surah.namaLatin,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                    TextWidget(
+                                      text: ' - (${surah.nama}) ',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextWidget(
+                                      text: surah.arti,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                    TextWidget(
+                                      text: ' | ${surah.jumlahAyat} Ayat',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                                TextWidget(
+                                  text: surah.tempatTurun,
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Obx(
+                                  () {
+                                    final currentPosition = controller
+                                        .position.value.inSeconds
+                                        .toDouble();
+                                    final maxDuration = controller
+                                        .duration.value.inSeconds
+                                        .toDouble();
+                                    return SizedBox(
+                                      width: Get.width * 0.7,
+                                      child: Slider(
+                                        value: currentPosition,
+                                        max: maxDuration,
+                                        min: 0,
+                                        onChanged: (value) {
+                                          controller.handleSeekFull(value);
+                                        },
                                       ),
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    if (controller.isPlayingFull.value) {
+                                      controller.pauseAudioFull();
+                                    } else {
+                                      final audioUrl = surahDetail!
+                                          .audioFull.values
+                                          .elementAt(3);
+                                      controller.playAudioFull(audioUrl);
+                                    }
+                                  },
+                                  icon: Obx(
+                                    () => HeroIcon(
+                                      controller.isPlayingFull.value
+                                          ? HeroIcons.pause
+                                          : HeroIcons.play,
+                                      style: HeroIconStyle.solid,
+                                      size: 20,
+                                      color: Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? Colors.white
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: surahDetail!.jumlahAyat,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final Ayat ayatSurah = surahDetail.ayat[index];
+                          return Column(
+                            children: [
+                              Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 6),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const HeroIcon(
-                                              HeroIcons.bookmark,
-                                              size: 20,
-                                              color: Colors.orange,
-                                            ),
+                                          HexagonWidget(
+                                            text: (index + 1).toString(),
+                                            size: 35,
                                           ),
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const HeroIcon(
-                                              HeroIcons.play,
-                                              size: 20,
-                                              color: Colors.orange,
-                                            ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {},
+                                                icon: HeroIcon(
+                                                  HeroIcons.bookmark,
+                                                  size: 20,
+                                                  color: Theme.of(context)
+                                                              .brightness ==
+                                                          Brightness.light
+                                                      ? primaryColor
+                                                      : secondaryColor,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  if (controller
+                                                      .isPlaying.value) {
+                                                    controller.pauseAudio();
+                                                  } else {
+                                                    final audioUrl = ayatSurah
+                                                        .audio.values
+                                                        .elementAt(3);
+                                                    controller.playAudio(
+                                                        audioUrl, index);
+                                                  }
+                                                },
+                                                icon: Obx(
+                                                  () => HeroIcon(
+                                                    controller.playingAyatIndex
+                                                                    .value ==
+                                                                index &&
+                                                            controller
+                                                                .isPlaying.value
+                                                        ? HeroIcons.pause
+                                                        : HeroIcons.play,
+                                                    style: HeroIconStyle.solid,
+                                                    size: 20,
+                                                    color: Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light
+                                                        ? primaryColor
+                                                        : secondaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      TextWidget(
-                                        text: ayatSurah.teksArab,
-                                        align: TextAlign.end,
-                                        fontSize: 22,
-                                        fontFamily: 'Lateef',
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            ayatSurah.teksArab,
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                              fontSize: 26,
+                                              fontWeight: FontWeight.w600,
+                                              color: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.light
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                              fontFamily: 'Lateef',
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 6,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              ayatSurah.teksLatin,
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.light
+                                                    ? const Color(0xFF61677A)
+                                                    : const Color(0xFFC6C6C6),
+                                                fontStyle: FontStyle.italic,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            TextWidget(
+                                              text: ayatSurah.teksIndonesia,
+                                              align: TextAlign.start,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 6,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          ayatSurah.teksLatin,
-                                          textAlign: TextAlign.start,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF61677A),
-                                            fontStyle: FontStyle.italic,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        TextWidget(
-                                          text: ayatSurah.teksIndonesia,
-                                          align: TextAlign.start,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 18,
-                          )
-                        ],
-                      );
-                    },
+                              const SizedBox(
+                                height: 18,
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                    ],
                   );
                 },
               ),

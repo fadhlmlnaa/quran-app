@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:quranku/models/surah.dart';
@@ -18,5 +19,16 @@ class HomeController extends GetxController {
     } else {
       return data.map((e) => Surah.fromJson(e)).toList();
     }
+  }
+
+
+  var isDarkMode = Get.isDarkMode.obs;
+  void toggleTheme() {
+    if (isDarkMode.value) {
+      Get.changeThemeMode(ThemeMode.light);
+    } else {
+      Get.changeThemeMode(ThemeMode.dark);
+    }
+    isDarkMode.value = !isDarkMode.value;
   }
 }

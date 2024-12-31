@@ -13,7 +13,7 @@ class IntroductionView extends GetView<IntroductionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 24,
         ),
         child: Center(
@@ -31,7 +31,6 @@ class IntroductionView extends GetView<IntroductionController> {
                     'Sesibuk itukah dengan dunia? biasakan membaca Al Qur\'an',
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: Color(0xff61677A),
               ),
               const SizedBox(
                 height: 28,
@@ -46,7 +45,10 @@ class IntroductionView extends GetView<IntroductionController> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffEF6C35),
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
                 onPressed: () => Get.offAllNamed(Routes.HOME),
                 child: const TextWidget(
