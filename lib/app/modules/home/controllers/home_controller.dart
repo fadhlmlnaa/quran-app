@@ -13,14 +13,13 @@ class HomeController extends GetxController {
 
     const JsonEncoder encoder = JsonEncoder.withIndent('  ');
     print(encoder.convert(data));
-    
+
     if (data.isEmpty) {
       return [];
     } else {
       return data.map((e) => Surah.fromJson(e)).toList();
     }
   }
-
 
   var isDarkMode = Get.isDarkMode.obs;
   void toggleTheme() {

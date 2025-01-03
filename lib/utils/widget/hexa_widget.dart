@@ -29,7 +29,7 @@ class HexagonWidget extends StatelessWidget {
         ), // Menyertakan warna sebagai parameter
         TextWidget(
             text: text,
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
             color: Theme.of(context).brightness == Brightness.light
                 ? Colors.black

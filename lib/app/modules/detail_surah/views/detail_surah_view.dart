@@ -174,7 +174,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           HexagonWidget(
-                                            text: (index + 1).toString(),
+                                            text: '${surahDetail.nomor} : ${index + 1}',
                                             size: 35,
                                           ),
                                           Row(

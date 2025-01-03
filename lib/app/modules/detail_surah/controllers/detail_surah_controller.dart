@@ -29,6 +29,9 @@ class DetailSurahController extends GetxController {
   Future<void> playAudio(String? url, int index) async {
     if (url != null) {
       try {
+        if (isPlayingFull.value) {
+          await stopAudioFull();
+        }
         isPlaying.value = true;
         playingAyatIndex.value = index;
         await player.setUrl(url);
@@ -93,6 +96,14 @@ class DetailSurahController extends GetxController {
     await playerFull.pause();
     isPlayingFull.value = false;
   }
+
+  Future<void> stopAudioFull() async {
+    await playerFull.stop();
+    await playerFull.seek(Duration.zero);
+    isPlayingFull.value = false;
+    position.value = Duration.zero;
+  }
+
 
   Future<void> handleSeekFull(double value) async {
     await playerFull.seek(Duration(seconds: value.toInt()));
