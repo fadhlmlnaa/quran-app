@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quranku/app/routes/app_pages.dart';
-import 'package:quranku/utils/constants/colors.dart';
+import 'package:quranku/view.dart';
 
 void main() {
   runApp(

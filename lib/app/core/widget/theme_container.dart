@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quranku/utils/utils.dart';
+import 'package:quranku/app/core/core.dart';
 
 class TContainer extends StatelessWidget {
   final Widget child;

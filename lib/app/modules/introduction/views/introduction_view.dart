@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:quranku/app/routes/app_pages.dart';
-import 'package:quranku/utils/utils.dart';
+import 'package:quranku/view.dart';
 
 import '../controllers/introduction_controller.dart';
 

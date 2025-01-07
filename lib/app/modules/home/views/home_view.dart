@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:quranku/view.dart';
 import 'package:quranku/app/routes/app_pages.dart';
-import 'package:quranku/models/surah.dart';
-import 'package:quranku/utils/utils.dart';
-import 'package:quranku/utils/widget/hexa_widget.dart';
-import 'package:quranku/utils/widget/theme_container.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -108,9 +105,7 @@ class HomeView extends GetView<HomeController> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Expanded(
-                      child: _buildSurahList(),
-                    ),
+                    _buildSurahList(),
                     const Center(
                       child: Text('Bookmark'),
                     )

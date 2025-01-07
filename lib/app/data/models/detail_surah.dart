@@ -42,8 +42,9 @@ class DetailSurah {
         "tempatTurun": tempatTurun,
         "arti": arti,
         "deskripsi": deskripsi,
-        "audioFull":
-            Map.from(audioFull).map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "audioFull": Map.from(audioFull).map(
+          (k, v) => MapEntry<String, dynamic>(k, v),
+        ),
         "ayat": List<dynamic>.from(ayat.map((x) => x.toJson())),
       };
 }

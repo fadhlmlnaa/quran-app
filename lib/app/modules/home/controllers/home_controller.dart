@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:quranku/models/surah.dart';
+import 'package:quranku/app/data/models/surah.dart';
 
 class HomeController extends GetxController {
   Future<List<Surah>> getAllSurah() async {
